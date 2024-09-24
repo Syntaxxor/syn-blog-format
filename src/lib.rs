@@ -90,9 +90,9 @@ impl SynFile {
                         if let Ok(element) = SynElement::parse_line(line.clone()) {
                             elements.push(element);
                         }
-                    }
 
-                    line.clear();
+                        line.clear();
+                    }
                 }
             }
 
