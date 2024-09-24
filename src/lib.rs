@@ -158,6 +158,15 @@ impl SynFile {
     pub fn get_tags(&self) -> &Vec<String> {
         &self.tags
     }
+    pub fn get_posted(&self) -> &String {
+        &self.posted
+    }
+    pub fn get_summary(&self) -> &String {
+        &self.summary
+    }
+    pub fn get_elements(&self) -> &Vec<SynElement> {
+        &self.elements
+    }
 }
 
 
