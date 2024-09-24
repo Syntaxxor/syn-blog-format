@@ -14,7 +14,7 @@ pub enum SynElement {
 pub struct SynFile {
     title: String,
     tags: Vec<String>,
-    posted: usize,
+    posted: String,
     summary: String,
     elements: Vec<SynElement>,
 }
@@ -78,7 +78,7 @@ impl SynFile {
             let tags = line.split(",").map(|e| e.trim().to_string()).collect::<Vec<_>>();
             line.clear();
             reader.read_line(&mut line).unwrap();
-            let posted = line.parse::<usize>().unwrap();
+            let posted = line.clone();
             line.clear();
             reader.read_line(&mut line).unwrap();
             let summary = line.clone();
@@ -122,7 +122,7 @@ impl SynFile {
             let tags = line.split(",").map(|e| e.trim().to_string()).collect::<Vec<_>>();
             line.clear();
             reader.read_line(&mut line).unwrap();
-            let posted = line.parse::<usize>().unwrap();
+            let posted = line.clone();
             line.clear();
             reader.read_line(&mut line).unwrap();
             let summary = line.clone();
@@ -149,6 +149,14 @@ impl SynFile {
                 write!(out_file, "{}\n\n", element.generate_line()).unwrap();
             }
         }
+    }
+
+
+    pub fn get_title(&self) -> &String {
+        &self.title
+    }
+    pub fn get_tags(&self) -> &Vec<String> {
+        &self.tags
     }
 }
 
