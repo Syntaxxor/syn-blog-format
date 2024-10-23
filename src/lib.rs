@@ -24,6 +24,7 @@ pub struct SynFile {
 
 impl SynElement {
     fn parse_line(line: String) -> Result<Self, ()> {
+        let line = line.trim().to_string();
         if line == "---" {
             Ok(SynElement::LineH)
         } else if line.starts_with("#") {
