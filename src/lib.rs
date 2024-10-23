@@ -72,16 +72,16 @@ impl SynFile {
             let mut reader = BufReader::new(in_file);
             let mut line = String::new();
             reader.read_line(&mut line).unwrap();
-            let title = line.clone();
+            let title = line.trim().to_string();
             line.clear();
             reader.read_line(&mut line).unwrap();
             let tags = line.split(",").map(|e| e.trim().to_string()).collect::<Vec<_>>();
             line.clear();
             reader.read_line(&mut line).unwrap();
-            let posted = line.clone();
+            let posted = line.trim().to_string();
             line.clear();
             reader.read_line(&mut line).unwrap();
-            let summary = line.clone();
+            let summary = line.trim().to_string();
 
             let mut elements = Vec::new();
             while let Ok(len) = reader.read_line(&mut line) {
@@ -116,16 +116,16 @@ impl SynFile {
             let mut reader = BufReader::new(in_file);
             let mut line = String::new();
             reader.read_line(&mut line).unwrap();
-            let title = line.clone();
+            let title = line.trim().to_string();
             line.clear();
             reader.read_line(&mut line).unwrap();
             let tags = line.split(",").map(|e| e.trim().to_string()).collect::<Vec<_>>();
             line.clear();
             reader.read_line(&mut line).unwrap();
-            let posted = line.clone();
+            let posted = line.trim().to_string();
             line.clear();
             reader.read_line(&mut line).unwrap();
-            let summary = line.clone();
+            let summary = line.trim().to_string();
 
             let elements = Vec::new();
 
