@@ -1,4 +1,5 @@
 use std::{fs::File, io::{BufRead, BufReader, Write}, path::Path};
+use chrono::{DateTime, Local};
 
 
 // Types
@@ -14,7 +15,7 @@ pub enum SynElement {
 pub struct SynFile {
     title: String,
     tags: Vec<String>,
-    posted: String,
+    posted: u64,
     summary: String,
     elements: Vec<SynElement>,
 }
@@ -79,7 +80,7 @@ impl SynFile {
             let tags = line.split(",").map(|e| e.trim().to_string()).collect::<Vec<_>>();
             line.clear();
             reader.read_line(&mut line).unwrap();
-            let posted = line.trim().to_string();
+            let posted = line.trim().parse::<u64>().unwrap_or(0);
             line.clear();
             reader.read_line(&mut line).unwrap();
             let summary = line.trim().to_string();
@@ -124,7 +125,7 @@ impl SynFile {
             let tags = line.split(",").map(|e| e.trim().to_string()).collect::<Vec<_>>();
             line.clear();
             reader.read_line(&mut line).unwrap();
-            let posted = line.trim().to_string();
+            let posted = line.trim().parse::<u64>().unwrap_or(0);
             line.clear();
             reader.read_line(&mut line).unwrap();
             let summary = line.trim().to_string();
@@ -160,8 +161,13 @@ impl SynFile {
     pub fn get_tags(&self) -> &Vec<String> {
         &self.tags
     }
-    pub fn get_posted(&self) -> &String {
+    pub fn get_posted(&self) -> &u64 {
         &self.posted
+    }
+    pub fn get_posted_str(&self) -> String {
+        let date_time = DateTime::from_timestamp(*self.get_posted() as i64, 0).unwrap_or_default();
+
+        format!("{}", date_time.format("%a, %d %b %Y %H:%M:%S %z"))
     }
     pub fn get_summary(&self) -> &String {
         &self.summary
