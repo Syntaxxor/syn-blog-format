@@ -1,5 +1,5 @@
 use std::{fs::File, io::{BufRead, BufReader, Write}, path::Path};
-use chrono::{DateTime, Local};
+use chrono::{DateTime, Local, TimeZone};
 
 
 // Types
@@ -7,6 +7,7 @@ use chrono::{DateTime, Local};
 #[derive(PartialEq, Eq, Clone, Debug)]
 pub enum SynElement {
     Text(String),
+    Code(String),
     Heading(String),
     Image{path: String, alt: String, style: String},
     LineH,
@@ -37,6 +38,8 @@ impl SynElement {
             } else {
                 Err(())
             }
+        } else if line.starts_with(".code") {
+            Ok(SynElement::Heading(line))
         } else {
             Ok(SynElement::Text(line))
         }
@@ -49,6 +52,10 @@ impl SynElement {
                 let text = text.replace("\n", "<br>");
                 format!("<p>{text}</p>")
             },
+            SynElement::Code(text) => {
+                let text = text.replace("\n", "<br>");
+                format!("<p class='code'>{text}</p>")
+            },
             SynElement::Heading(text) => format!("<h2>{text}</h2>"),
             SynElement::Image { path, alt, style } => format!("<img src='{path}' style='{style}'>{alt}</img>"),
             SynElement::LineH => "<div class='hline'></div>".into(),
@@ -59,6 +66,7 @@ impl SynElement {
     fn generate_line(&self) -> String {
         match self {
             SynElement::Text(text) => text.clone(),
+            SynElement::Code(text) => text.clone(),
             SynElement::Heading(text) => format!("#{text}"),
             SynElement::Image { path, alt, style } => format!(".img {path}|{alt}|{style}"),
             SynElement::LineH => "---".into(),
@@ -165,7 +173,7 @@ impl SynFile {
         &self.posted
     }
     pub fn get_posted_str(&self) -> String {
-        let date_time = DateTime::from_timestamp(*self.get_posted() as i64, 0).unwrap_or_default();
+        let date_time = Local.timestamp_opt(*self.get_posted() as i64, 0).unwrap();
 
         format!("{}", date_time.format("%a, %d %b %Y %H:%M:%S %z"))
     }
