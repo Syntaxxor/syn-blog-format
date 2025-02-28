@@ -53,7 +53,6 @@ impl SynElement {
                 format!("<p>{text}</p>")
             },
             SynElement::Code(text) => {
-                let text = text.replace("\n", "<br>");
                 format!("<p class='code'>{text}</p>")
             },
             SynElement::Heading(text) => format!("<h2>{text}</h2>"),
