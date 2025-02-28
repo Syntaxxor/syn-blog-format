@@ -38,8 +38,8 @@ impl SynElement {
             } else {
                 Err(())
             }
-        } else if line.starts_with(".code") {
-            Ok(SynElement::Heading(line))
+        } else if line.starts_with(".code ") {
+            Ok(SynElement::Code(line[6..].to_string()))
         } else {
             Ok(SynElement::Text(line))
         }
@@ -53,7 +53,7 @@ impl SynElement {
                 format!("<p>{text}</p>")
             },
             SynElement::Code(text) => {
-                let text = text[5..].replace("\n", "<br>");
+                let text = text.replace("\n", "<br>");
                 format!("<p class='code'>{text}</p>")
             },
             SynElement::Heading(text) => format!("<h2>{text}</h2>"),
