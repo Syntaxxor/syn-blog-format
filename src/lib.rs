@@ -53,7 +53,7 @@ impl SynElement {
                 format!("<p>{text}</p>")
             },
             SynElement::Code(text) => {
-                let text = text.replace("\n", "<br>");
+                let text = text[5..].replace("\n", "<br>");
                 format!("<p class='code'>{text}</p>")
             },
             SynElement::Heading(text) => format!("<h2>{text}</h2>"),
@@ -66,7 +66,7 @@ impl SynElement {
     fn generate_line(&self) -> String {
         match self {
             SynElement::Text(text) => text.clone(),
-            SynElement::Code(text) => text.clone(),
+            SynElement::Code(text) => format!(".code {text}"),
             SynElement::Heading(text) => format!("#{text}"),
             SynElement::Image { path, alt, style } => format!(".img {path}|{alt}|{style}"),
             SynElement::LineH => "---".into(),
