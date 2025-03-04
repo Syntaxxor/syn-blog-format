@@ -94,7 +94,7 @@ impl SynFile {
 
             let mut elements = Vec::new();
             while let Ok(len) = reader.read_line(&mut line) {
-                if len == 1 {
+                if len <= 1 {
                     if let Ok(element) = SynElement::parse_line(line.clone()) {
                         elements.push(element);
                     }
